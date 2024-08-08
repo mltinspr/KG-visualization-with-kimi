@@ -26,22 +26,6 @@ class KGVisualizer:
                            cdn_resources='in_line', directed=True)
         self.use_gpt = use_gpt
 
-    @property
-    def kimi_api_key(self) -> str:
-        return self._kimi_api_key
-
-    @kimi_api_key.setter
-    def kimi_api_key(self, value: str) -> None:
-        raise NotImplementedError('kimi_api_key can not be modified')
-
-    @property
-    def gpt_api_key(self) -> str:
-        return self._gpt_api_key
-
-    @gpt_api_key.setter
-    def gpt_api_key(self, value: str) -> None:
-        raise NotImplementedError('gpt_api_key can not be modified')
-
     @staticmethod
     def chat(client: openai.OpenAI, prompt: str) -> str:
         try:
@@ -67,23 +51,24 @@ class KGVisualizer:
         return response
 
     def generate_data_with_gpt(self) -> list[dict]:
-        # # 初始化提示模板和 GPT 模型
-        prompt_template = PromptTemplate(template=persona_template, input_variables=['question'])
-        gpt = llms.OpenAI(api_key=self._gpt_api_key, max_tokens=1000, base_url="https://api.chatanywhere.tech")
-        chain = LLMChain(prompt=prompt_template, llm=gpt)
+        # 初始化提示模板和 GPT 模型
+        # prompt_template = PromptTemplate(template=persona_template, input_variables=['question'])
+        # gpt = llms.OpenAI(api_key=self._gpt_api_key, max_tokens=1000, base_url="https://api.chatanywhere.tech")
+        # chain = LLMChain(prompt=prompt_template, llm=gpt)
 
         # 使用 GPT 模型根据问题生成文本
-        text = chain.run(question)
+        # text = chain.run(question)
 
         # 初始化 few-shot 提示模板并运行，以格式化响应
-        few_shot = PromptTemplate(template=few_shot_prompt, input_variables=["text"])
-        few_shot_chain = LLMChain(prompt=few_shot, llm=gpt)
-        formatted_response = few_shot_chain.run(text)
+        # few_shot = PromptTemplate(template=few_shot_prompt, input_variables=["text"])
+        # few_shot_chain = LLMChain(prompt=few_shot, llm=gpt)
+        # formatted_response = few_shot_chain.run(text)
 
         # 从格式化响应中提取 JSON 列表
-        json_response = formatted_response[:formatted_response.rfind("}") + 1] + "]"
-        json_list = json.loads(json_response)
-        return json_list
+        # json_response = formatted_response[:formatted_response.rfind("}") + 1] + "]"
+        # json_list = json.loads(json_response)
+        # return json_list
+        raise NotImplementedError("Need OPENAI_KEY to test")
 
     def generate_data_with_kimi(self) -> list[dict]:
         # 通过chat函数与Kimi进行对话，获取补充文本
