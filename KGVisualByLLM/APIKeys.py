@@ -1,0 +1,2 @@
+OPENAI_KEY = ''
+KIMI_KEY = ''
